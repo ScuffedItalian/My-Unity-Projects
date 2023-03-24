@@ -5,42 +5,65 @@ using UnityEngine;
 public class playerMovement : MonoBehaviour
 {
     public float speed = 10f; //Speed of the player
-    public float torque = 10f; //Torque of zeee player
+    public float torque = 10f; //Torque of the player
     public float speedPlus = 20f;
-    private Rigidbody rb; //Rigidbody var
-    // Start is called before the first frame update
+    public float jumpFor = 10f;
+    public float jumpHeight = 2f;
+    public bool isJumping = false;
+    private Rigidbody rb;
+
     void Start()
     {
-        rb = GetComponent<Rigidbody>(); //Getting the RigidBody component
+        rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
+        {
+            rb.velocity += new Vector3(0f, jumpFor, 0f);
+            isJumping = true;
+        }
+
+        if (transform.position.y >= jumpHeight)
+        {
+            isJumping = false;
+        }
+
+        if (isJumping && rb.velocity.y < 0.1f)
+        {
+            isJumping = false;
+        }
+    }
+
     void FixedUpdate()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         Vector3 movement = new Vector3(0, 0, 0);
-        if (Input.GetKey(KeyCode.D))
+
+        if (Input.GetKey(KeyCode.A))
         {
             movement = new Vector3(0, 0, speed * Time.deltaTime);
         }
 
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.D))
         {
             movement = new Vector3(0, 0, -speed * Time.deltaTime);
         }
 
-        if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.LeftShift))
         {
             movement = new Vector3(0, 0, speedPlus * Time.deltaTime);
         }
-        
+
         rb.MovePosition(transform.position + movement);
-        
+
         if (movement.magnitude > 0)
         {
             Vector3 torqueDirection = new Vector3(movement.z, 0, -movement.x);
             rb.AddTorque(torqueDirection * torque);
         }
-        
     }
+
+
 }
