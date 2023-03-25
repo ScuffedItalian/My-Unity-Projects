@@ -21,8 +21,18 @@ public class buttonClicks : MonoBehaviour
     public void onMyButtonClickInfo()
     {
         Debug.Log("Info button clicked");
+        SceneManager.LoadScene(2);
     }
-    
+
+    public void onMyButtonClickBack1()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void onMyButtonClickBack2()
+    {
+        SceneManager.LoadScene(0);
+    }
     // Update is called once per frame
     void Update()
     {

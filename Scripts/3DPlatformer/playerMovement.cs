@@ -58,10 +58,17 @@ public class playerMovement : MonoBehaviour
 
         rb.MovePosition(transform.position + movement);
 
-        if (movement.magnitude > 0)
+        if (movement.magnitude > 7)
         {
-            Vector3 torqueDirection = new Vector3(movement.z, 0, -movement.x);
-            rb.AddTorque(torqueDirection * torque);
+            Debug.Log("adawhwaawd");
+            // Vector3 torqueDirection = new Vector3(movement.z, 0, -movement.x);
+            // rb.AddTorque(torqueDirection * torque);
+        }
+
+        if (Mathf.Abs(transform.position.y - 7f) < 0.1f)
+        {
+            rb.AddForce(Vector3.down * 3f, ForceMode.Impulse);
+            Debug.Log("YAY");
         }
     }
 
